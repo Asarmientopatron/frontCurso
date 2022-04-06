@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Home } from './components/Home';
+import { Route, Routes} from 'react-router-dom';
+import styled from 'styled-components';
+import { PersonaProvider } from './data/PersonaContext';
+import { Crear } from './components/Crear';
+import { ActualizarOVer } from './components/ActualizarOVer';
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AppState>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          width: "100%"
+        }}
+      >
+        <Contenedor>
+          <Routes>
+            <Route exact={true} path='/' element={<Home/>}/>
+            <Route path="/:accion/:id" element={<ActualizarOVer/>}/>
+            <Route exact={true} path='/crear' element={<Crear/>}/>
+          </Routes>
+        </Contenedor>
+      </div>
+    </AppState>
+  )
+}
+
+const AppState = ({children}) => {
+  return (
+    <PersonaProvider>
+      {children}
+    </PersonaProvider>
+  )
 }
 
 export default App;
+
+const Contenedor = styled.div`
+    max-width: 1200px;
+    padding: 40px;
+    width: 90%;
+    gap: 20px;
+    grid-template-columns: 2fr 1fr;
+    background: #fff;
+    margin: 40px 0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(129, 129, 129, 0.1);
+`;
